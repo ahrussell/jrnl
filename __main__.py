@@ -12,8 +12,8 @@ def collect_validated_input(prompt, error_msg, validator):
     return user_input
 
 if __name__=="__main__":
-    client = MongoClient("mongodb://localhost:27017")
-    db = client.jrnl
+    client = MongoClient()
+    db = client.day_entries
 
     # prompt for the day's rating
     day_validation = lambda x:  x.isdigit() and int(x) <= 7 and int(x) >= 1
@@ -21,8 +21,19 @@ if __name__=="__main__":
     day_error_msg = "Oops, enter an integer between 1 and 7: "
 
     day_rating = int(collect_validated_input(day_prompt, day_error_msg, day_validation))
+
+    # good & bad & ugly
+    bad = ""
+    if day_rating < 4:
+        bad = input("I'm sorry it wasn't a good day!  What went wrong? \n")
     
+    good = input("What was one good part about the day? \n")
+    ugly = input("What was one thing that you learned or threw you off today? \n")
+
     db.entries.insert_one({
         "rating": day_rating,
-        "timestamp": datetime.datetime.now()
+        "timestamp": datetime.datetime.now(),
+        "good": good,
+        "bad": bad,
+        "learned": ugly,
     })
