@@ -28,7 +28,7 @@ if __name__=="__main__":
         bad = input("I'm sorry it wasn't a good day!  What went wrong? \n")
     
     good = input("What was one good part about the day? \n")
-    ugly = input("What was one thing that you learned or threw you off today? \n")
+    ugly = input("What is one thing that you learned or threw you off today? \n")
 
     db.entries.insert_one({
         "rating": day_rating,
